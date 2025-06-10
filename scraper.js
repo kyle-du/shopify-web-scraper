@@ -4,7 +4,7 @@ const { extractStoreAndProduct } = require("./utils/openai");
 const { findStoreDomain, findProductPages } = require("./utils/google-cse");
 const { isShopifyPage } = require("./utils/shopify-detector");
 const { fetchShopifyProductData } = require("./utils/shopify-fetcher");
-const { generateMasterProductJSON } = require("./utils/master-json.js")
+const { generateMasterProductJSON } = require("./utils/master-json.js");
 const fs = require("fs");
 
 const num_results = 2;
