@@ -7,15 +7,25 @@ const openai = new OpenAI({
 
 async function extractStoreAndProduct(prompt) {
   const chatCompletion = await openai.chat.completions.create({
-    model: "gpt-4o-mini",
+    model: "gpt-4o",
+    temperature: 0,
     messages: [
       {
         role: "system",
         content:
-          `Extract what you believe to be the store and product name from the user prompt. 
-          If there is only a store name, return just the store name and leave product name empty.
-          If there is only a product name, return just the product name and leave store name empty.
-          Return them in JSON like { store: '', product: '' }`,
+          `Extract what you believe to be the store (brand or company) and product name from the user's prompt.
+
+          Use your internal knowledge of well-known beauty, skincare, and cosmetics brands to determine if any part of the prompt matches a known store or brand name.
+          If this fails to detect a store name, then use context clues.
+
+          - If a known brand name appears, treat that as the store name.
+          - The remaining part of the prompt should be treated as the product name.
+          - If only a brand name is detected, leave the product name empty.
+          - If only a product name is detected with no recognizable brand, leave the store name empty.
+
+          Return the result in the format:
+          { "store": "...", "product": "..." }
+          `,
       },
       {
         role: "user",
@@ -55,6 +65,7 @@ async function selectRelevantImage(images) {
   const res = await openai.chat.completions.create({
     model: 'gpt-4o',
     messages,
+    temperature: 0,
     max_tokens: 10,
   });
 

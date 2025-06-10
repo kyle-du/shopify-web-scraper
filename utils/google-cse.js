@@ -11,12 +11,15 @@ async function googleSearch(query) {
 }
 
 async function findStoreDomain(store) {
-  const results = await googleSearch(`${store} official site`);
-  return results.length > 0 ? new URL(results[0].link).origin : null;
+  // Temporary fallback: returns the raw store name directly.
+  // TODO: Replace with a proper Google CSE query to accurately resolve the official store domain.
+  // Current workaround due to issues with the CSE configuration, kept returning social media URLs unlike regular browser SE.
+  return store;
 }
 
 async function findProductPages(domain, product, num_query) {
-  const results = await googleSearch(`site:${domain} ${product}`);
+  console.log("domain: ", domain, " product: ", product);
+  const results = await googleSearch(`${domain} ${product}`);
   return results.slice(0, num_query).map(r => r.link);
 }
 

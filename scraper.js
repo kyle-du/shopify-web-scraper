@@ -40,8 +40,6 @@ const num_results = 2;
 
   try {
     const productData = await fetchShopifyProductData(validShopifyUrls[0]);
-    console.log("Parsed Shopify product data:");
-    console.dir(productData, { depth: null });
 
     const master_json = generateMasterProductJSON(productData.raw, validShopifyUrls[0]);
     fs.writeFileSync("data/" + master_json.title + ".json", JSON.stringify([master_json], null, 2));
